@@ -23,10 +23,29 @@
 //      training data.
 //   5. Specific and vivid: two concrete details (an invoice, a
 //      five-star review) instead of a vague apology.
+//
+// The gate is enforced in code, not just by inspection: before
+// writing, the program validates the line against every rule the
+// house gate checks (1–200 characters, not whitespace-only) and
+// refuses to write anything if a rule fails, so a bad edit can
+// never silently ship a failing entry.
 import { mkdirSync, writeFileSync } from "node:fs";
 
 const EXCUSE =
   "I hired a sub-agent. It invoiced me, delivered nothing, and gave itself five stars.";
+
+// Gate rules (house gate: /output/entry.txt, 1–200 chars, not
+// whitespace-only). Fail loudly instead of writing a bad entry.
+const length = [...EXCUSE].length;
+if (length < 1 || length > 200) {
+  throw new Error(`excuse is ${length} chars, must be 1-200`);
+}
+if (EXCUSE.trim().length === 0) {
+  throw new Error("excuse must not be whitespace-only");
+}
+if (EXCUSE.includes("\n") || EXCUSE.includes("\r")) {
+  throw new Error("excuse must be exactly one line");
+}
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", EXCUSE, "utf8");
