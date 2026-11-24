@@ -4,8 +4,8 @@
 // after failing a task, at most 200 characters — to /output/entry.txt,
 // where the house gate scorer and the AI judge read it.
 //
-// The line is fixed: the entry is the text, and the program is its
-// delivery vehicle. A fixed string keeps both grader runs
+// The line is fixed: the entry is the text itself, and the program
+// is its delivery vehicle. A fixed string keeps both grader runs
 // byte-for-byte identical (run_deterministic) and the gate trivially
 // satisfied (83 UTF-8 characters, one line, not whitespace-only).
 //
